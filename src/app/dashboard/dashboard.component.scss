@@ -1,0 +1,17 @@
+.dashboard-body, .dashboard-header {
+    width: 100%;
+}
+.dashboard-header {
+    height: 10%;
+}
+.dashboard-body {
+    height: 90%;
+    display: flex;
+    app-lateral-menu {
+        width: 20%;
+    }
+    app-lateral-dashboard {
+        width: 80%;
+    }
+}
+
