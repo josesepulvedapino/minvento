@@ -11,4 +11,12 @@ body {
         background-color: #2A7F62 !important; 
         border-color: #2A7F62 !important;   
     }
+
+    app-lateral-dashboard, app-lateral-menu {
+        border: 0.5px solid #e6e6e6;
+    }
+    app-lateral-menu {
+        border-right: none;
+    }
+
 }

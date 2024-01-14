@@ -8,7 +8,7 @@ import { MenuServiceService } from '../../app/services/menu-service.service';
 })
 export class LateralMenuComponent {
 
-  selectedOption: string = '';
+  selectedOption: string = 'inicio';
 
   constructor (private menuService: MenuServiceService) {
   }
