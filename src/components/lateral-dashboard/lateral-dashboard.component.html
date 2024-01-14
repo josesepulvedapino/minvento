@@ -1,3 +1,6 @@
 <section class="lateral-dashboard">
-    <h1>lateral dashboard</h1>
+    <app-inicio *ngIf="selectedComponent === 'inicio'"></app-inicio>
+    <app-ventas *ngIf="selectedComponent === 'ventas'"></app-ventas>
+    <app-compras *ngIf="selectedComponent === 'compras'"></app-compras>
+    <app-inventario *ngIf="selectedComponent === 'inventario'"></app-inventario>
 </section>
