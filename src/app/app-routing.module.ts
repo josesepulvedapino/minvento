@@ -4,7 +4,7 @@ import { LandingPageComponent } from '../pages/landing-page/landing-page.compone
 import { DashboardComponent } from '../pages/dashboard/dashboard.component';
 
 const routes: Routes = [
-  { path: 'inicio', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent },
   { path: 'landing-page', component: LandingPageComponent},
   { path: '**',   redirectTo: '/landing-page', pathMatch: 'full' }
 

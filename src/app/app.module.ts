@@ -13,6 +13,8 @@ import { InicioComponent } from '../components/lateral-dashboard/inicio/inicio.c
 import { VentasComponent } from '../components/lateral-dashboard/ventas/ventas.component';
 import { ComprasComponent } from '../components/lateral-dashboard/compras/compras.component';
 import { InventarioComponent } from '../components/lateral-dashboard/inventario/inventario.component';
+import { AgregarProductoComponent } from '../components/modals/agregar-producto/agregar-producto.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -25,14 +27,20 @@ import { InventarioComponent } from '../components/lateral-dashboard/inventario/
     InicioComponent,
     VentasComponent,
     ComprasComponent,
-    InventarioComponent
+    InventarioComponent,
+    AgregarProductoComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [
+    
+  ],
   bootstrap: [AppComponent]
+
+  
 })
 export class AppModule { }
