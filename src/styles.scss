@@ -25,4 +25,14 @@ body {
             border-inline: 1px solid #e6e6e6;
         }
     }
+    p {
+        margin: 0;
+    }
+    .invalid-input {
+        border: 1px solid rgb(248, 100, 100)
+    }
+    .invalid-text {
+        color: rgb(248, 100, 100)
+    }
 }
+

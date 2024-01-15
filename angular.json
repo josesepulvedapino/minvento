@@ -101,6 +101,23 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "minvento:build:production",
+              "serveTarget": "minvento:serve:production"
+            },
+            "development": {
+              "buildTarget": "minvento:build:development",
+              "serveTarget": "minvento:serve:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }

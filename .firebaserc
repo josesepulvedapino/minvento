@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "minvento-efd41"
+  },
+  "targets": {
+    "minvento-efd41": {
+      "hosting": {
+        "minvento": [
+          "minvento-efd41"
+        ]
+      }
+    }
+  }
+}
