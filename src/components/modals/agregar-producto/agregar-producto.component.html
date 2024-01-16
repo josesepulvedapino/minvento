@@ -5,7 +5,7 @@
 <div class="modal-body">
     <form [formGroup]="formulario">
         <div class="input-group mb-3">
-            <input (change)="agregarImagenProducto($event)" formControlName="imagen" type="file" accept="image/*" class="form-control" id="imagen" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+            <input (change)="obtenerImagenProducto($event)" formControlName="imagen" type="file" accept="image/*" class="form-control" id="imagen" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
         </div>
         <div class="mb-3">
             <input [ngClass]="{ 'invalid-input': formulario.get('nombre')!.invalid && formulario.get('nombre')!.touched }" formControlName="nombre" [placeholder]="'Nombre'" type="text" class="form-control" id="nombre" aria-describedby="emailHelp">
