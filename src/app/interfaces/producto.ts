@@ -5,5 +5,5 @@ export interface Producto {
     marca: string;
     cantidad: number;
     precio: boolean;
-    fecha_vencimiento: Date;
+    fecha_vencimiento: { year: string; month: string; day: string };
 }

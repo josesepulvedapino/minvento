@@ -19,7 +19,7 @@ export class AgregarProductoComponent {
       marca: new FormControl('', Validators.required),
       cantidad: new FormControl('', Validators.required),
       precio: new FormControl('', Validators.required),
-      fecha_vencimiento: new FormControl('', Validators.required)
+      fecha_vencimiento: new FormControl('',Validators.required)
     });
   }
 
