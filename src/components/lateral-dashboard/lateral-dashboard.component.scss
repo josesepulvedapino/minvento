@@ -13,6 +13,9 @@
         height: 93%;
         .table-responsive {
             height: 100%;
+            td {
+                vertical-align: middle;
+            }
         }
     }
 

@@ -18,11 +18,13 @@
             </thead>
             <tbody>
               <tr *ngFor="let producto of productos">
-                <th scope="row">{{producto.imagen}}</th>
-                <td>{{producto.nombre}}</td>
+                <th scope="row">
+                  <img [src]="producto.imagen" alt="" width="50px" height="50px">
+                </th>
+                <td [title]="producto.nombre">{{ (producto.nombre.length > 25) ? (producto.nombre | slice:0:25) + '...' : producto.nombre }}</td>
                 <td>{{producto.marca}}</td>
                 <td>{{producto.cantidad}}</td>
-                <td>{{producto.precio}}</td>
+                <td>{{ producto.precio | currency:'$':'symbol':'1.0-0' }}</td>
                 <td>{{producto.fecha_vencimiento.year + '/' + producto.fecha_vencimiento.month + '/' + producto.fecha_vencimiento.day}}</td>
               </tr>
             </tbody>

@@ -4,6 +4,6 @@ export interface Producto {
     nombre: string;
     marca: string;
     cantidad: number;
-    precio: boolean;
+    precio: number;
     fecha_vencimiento: { year: string; month: string; day: string };
 }
