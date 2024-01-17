@@ -3,7 +3,7 @@ export interface Producto {
     imagen: string;
     nombre: string;
     marca: string;
-    cantidad: number;
-    precio: number;
+    cantidad: string;
+    precio: string;
     fecha_vencimiento: { year: string; month: string; day: string };
 }

@@ -25,9 +25,10 @@
             </div>
         </div>
         <div class="mb-3">
-            <input [ngClass]="{ 'invalid-input': formulario.get('cantidad')!.invalid && formulario.get('cantidad')!.touched }" formControlName="cantidad" min="0" [placeholder]="'Cantidad'" type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <input (input)="formatearCantidad()"  [ngClass]="{ 'invalid-input': formulario.get('cantidad')!.invalid && formulario.get('cantidad')!.touched }" formControlName="cantidad" min="0" max="100.000" [placeholder]="'Cantidad'" type="text" class="form-control" id="cantidad" aria-describedby="emailHelp">
             <div class="w-100" *ngIf="formulario.get('cantidad')!.invalid && formulario.get('cantidad')!.touched">
                 <p class="invalid-text" *ngIf="formulario.get('cantidad')!.hasError('required')">La cantidad es obligatoria.</p>
+                <p class="invalid-text" *ngIf="formulario.get('cantidad')!.hasError('max')">La cantidad no puede superar los 100,000.</p>
             </div>
         </div>
         <div class="input-group mb-3">

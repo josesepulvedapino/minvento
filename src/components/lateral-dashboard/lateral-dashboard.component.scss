@@ -13,10 +13,46 @@
         height: 93%;
         .table-responsive {
             height: 100%;
-            td {
+            table {
+                table-layout: fixed;
+            }
+            th, td {
+                width: 25%;
                 vertical-align: middle;
+                text-align: center;
             }
         }
+        .loading-image, .loading-text-large, .loading-text-short {
+            vertical-align: middle;
+            display: inline-block;
+            background-color: #ccc;
+            animation: fadeInOut 1s infinite;
+            height: 50px;
+        }
+        .loading-text-large, .loading-text-short {
+            height: 20px;
+        }
+        .loading-image {
+            width: 50px;
+        }
+        .loading-text-large {
+            width: 80%;
+        }
+        .loading-text-short {
+            width: 50%;
+        }
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.3;
+            }
+        }
+
     }
 
 }

@@ -25,7 +25,7 @@ export class AgregarProductoComponent {
       imagen: new FormControl('', Validators.required),  // Campo para la imagen con validación de requerido
       nombre: new FormControl('', Validators.required),  // Campo para el nombre con validación de requerido
       marca: new FormControl('', Validators.required),  // Campo para la marca con validación de requerido
-      cantidad: new FormControl('', Validators.required),  // Campo para la cantidad con validación de requerido
+      cantidad: new FormControl('', [Validators.required, Validators.max(100000)]),
       precio: new FormControl('', Validators.required),  // Campo para el precio con validación de requerido
       fecha_vencimiento: new FormControl('', Validators.required)  // Campo para la fecha de vencimiento con validación de requerido
     });
@@ -83,6 +83,16 @@ export class AgregarProductoComponent {
       const precioFormateado = precioRef.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
       // Actualizar el valor en el formulario con el precio formateado
       precioRef.setValue(precioFormateado);
+    }
+  }
+
+  formatearCantidad() {
+    const cantidadRef = this.formulario.get('cantidad');
+    if (cantidadRef?.value) {
+      // Eliminar todos los caracteres no numéricos y formatear con puntos para separar miles
+      const cantidadRefFormateada = cantidadRef.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      // Actualizar el valor en el formulario con el precio formateado
+      cantidadRef.setValue(cantidadRefFormateada);
     }
   }
   

@@ -11,6 +11,7 @@ import { Producto } from '../../../app/interfaces/producto';
 })
 export class InventarioComponent implements OnInit {
   productos: Producto[]
+  isLoaded: boolean = false;
 
   constructor(private modalService: NgbModal, private productosService: ProductosService) {
     this.productos = [];
@@ -22,6 +23,7 @@ export class InventarioComponent implements OnInit {
 
   ngOnInit() {
     this.productosService.getProductos().subscribe(productos => {
+      this.isLoaded = true;
       this.productos = productos;
     })
   }
