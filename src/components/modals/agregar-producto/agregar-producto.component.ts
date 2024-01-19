@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
 import { NgbActiveModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ProductosService } from '../../../app/services/productos.service';
+import { ToastService } from '../../../app/services/toast.service';
 
 @Component({
   selector: 'app-agregar-producto',
@@ -10,6 +11,7 @@ import { ProductosService } from '../../../app/services/productos.service';
   styleUrls: ['./agregar-producto.component.scss']
 })
 export class AgregarProductoComponent {
+  agregandoProducto = false;  // Variable para indicar si se está agregando un producto
   formulario: FormGroup;
   imagenFile: File | null = null;
   imagenUrl: string | null = null;
@@ -19,6 +21,7 @@ export class AgregarProductoComponent {
     public activeModal: NgbActiveModal,  // Servicio de Bootstrap para manipular modales
     private productosService: ProductosService,  // Servicio que maneja la lógica relacionada con los productos
     private storage: Storage,  // Servicio de Firebase para el almacenamiento
+    private toastService: ToastService  // Servicio para mostrar toasts
   ) {
     // Inicialización del formulario con controles y validadores
     this.formulario = new FormGroup({
@@ -40,6 +43,8 @@ export class AgregarProductoComponent {
   }
 
   async agregarProducto() {
+    // Indicar que se está agregando un producto
+    this.agregandoProducto = true;
     // Verificar si el formulario es válido antes de continuar
     if (this.formulario.valid) {
       // Verificar si hay una imagen para subir
@@ -58,6 +63,7 @@ export class AgregarProductoComponent {
         } catch (error) {
           // Manejar errores en caso de problemas al subir la imagen
           console.error('Error al subir la imagen:', error);
+          this.toastService.showError('Error al subir la imagen. Por favor, intenta más tarde.');
           return;
         }
       }
@@ -69,9 +75,11 @@ export class AgregarProductoComponent {
         });
         // Cerrar el modal si la operación fue exitosa
         this.activeModal.close();
+        this.toastService.showSuccess('Producto agregado correctamente al inventario.');
       } catch (error) {
         // Manejar errores en caso de problemas al agregar el producto a Firestore
         console.error('Error al agregar el producto a Firestore:', error);
+        this.toastService.showError('Error al agregar el producto al inventario. Por favor, intenta más tarde.');
       }
     }
   }

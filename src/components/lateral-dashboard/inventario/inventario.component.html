@@ -1,12 +1,43 @@
+<ng-container *ngIf="showSuccessToast || showErrorToast">
+  <ngb-toast class="position-fixed end-0" [autohide]="true" [ngClass]="{'error-toast': showErrorToast}">
+    {{ showSuccessToast ? successToastMessage : errorToastMessage }}
+  </ngb-toast>
+</ng-container>
+
 <section class="inventario p-4">
   <div class="inventario-header d-flex align-items-center justify-content-between pb-2">
+    <div class="inventario-header-left">
       <h2>Inventario</h2>
-      <button [disabled]="!isLoaded" (click)="openModalAgregarProducto()" type="button" class="btn btn-dark">Agregar producto</button>
+    </div>
+    <div class="inventario-header-right">
+      <div class="input-group">
+        <span aria-current="" class="input-group-text">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+          </svg>
+        </span>
+        <input
+        [disabled]="!isLoaded"
+        (input)="searchProductoByName()" 
+        [(ngModel)]="searchTerm"
+        class="form-control"
+        placeholder="Buscar productos..."
+        id="buscadorProducto"
+        name="buscadorProducto"
+      />
+      <select (change)="searchProductoByMarca()" class="form-select ms-2" [(ngModel)]="selectedMarca" aria-label="Selecciona una marca">
+        <option [value]="''" disabled selected>Selecciona una marca</option>
+        <option value="all">TODAS LAS MARCAS</option>
+        <option *ngFor="let marca of marcas" [value]="marca">{{ marca }}</option>
+      </select>
+        <button [disabled]="!isLoaded" (click)="openModalAgregarProducto()" type="button" class="btn btn-dark ms-2">Agregar producto</button>
+      </div>
+    </div>
   </div>
   <div class="inventario-body">
       <div class="table-responsive">
-          <table class="table inventario-body-table">
-              <thead class="thead-dark">
+          <table class="table table-hover inventario-body-table">
+              <thead class="sticky-top">
                   <tr>
                       <th scope="col">Imagen</th>
                       <th scope="col">Nombre</th>
@@ -22,13 +53,13 @@
                     <!-- Filas de la tabla cuando hay productos -->
                     <tr *ngFor="let producto of productos">
                       <td scope="row">
-                        <img [src]="producto.imagen" alt="" width="50px" height="50px">
+                        <img [src]="producto?.imagen" alt="" width="50px" height="50px">
                       </td>
                       <td class="text-nowrap text-truncate" [title]="producto.nombre">{{producto.nombre}}</td>
                       <td>{{producto.marca}}</td>
                       <td>{{producto.cantidad}}</td>
                       <td>{{'$'+producto.precio}}</td>
-                      <td>{{producto.fecha_vencimiento.year + '/' + producto.fecha_vencimiento.month + '/' + producto.fecha_vencimiento.day}}</td>
+                      <td>{{ (producto.fecha_vencimiento.year + '/' + producto.fecha_vencimiento.month + '/' + producto.fecha_vencimiento.day) | date: 'yyyy/MM/dd' }}</td>
                     </tr>
                   </ng-container>
                   <ng-template #noProductos>
@@ -54,3 +85,4 @@
       </div>
   </div>
 </section>
+

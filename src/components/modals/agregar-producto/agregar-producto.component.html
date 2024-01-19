@@ -67,6 +67,14 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="agregarProducto()" [disabled]="formulario.invalid">Agregar producto</button>
+    <ng-container *ngIf="!agregandoProducto ; else cargandoProducto">
+        <button type="button" class="btn btn-outline-dark" (click)="agregarProducto()" [disabled]="formulario.invalid">Agregar producto</button>
+    </ng-container>
+    <ng-template #cargandoProducto>
+        <button class="btn btn-outline-dark" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            <span class="ps-1" role="status">Cargando...</span>
+          </button>
+    </ng-template>
 </div>
 

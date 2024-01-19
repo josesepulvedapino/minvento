@@ -1,7 +1,6 @@
 .lateral-dashboard {
     height: 100%;
     background-color: #fff;
-    text-align: center;
 }
 
 .inventario, .ventas, .compras {
@@ -15,12 +14,13 @@
             height: 100%;
             table {
                 table-layout: fixed;
+                th, td {
+                    width: 25%;
+                    vertical-align: middle;
+                    text-align: center;
+                }      
             }
-            th, td {
-                width: 25%;
-                vertical-align: middle;
-                text-align: center;
-            }
+
         }
         .loading-image, .loading-text-large, .loading-text-short {
             vertical-align: middle;

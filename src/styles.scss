@@ -20,9 +20,10 @@ body {
     }
 
     table {
-        tr {
-            border-top-width: thin;
-            border-inline: 1px solid #e6e6e6;
+        th {
+            background-color: #2A7F62 !important;
+            opacity: 1;
+            color: #ffffff !important;
         }
     }
     p {
@@ -34,5 +35,45 @@ body {
     .invalid-text {
         color: rgb(248, 100, 100)
     }
+    .spinner-border {
+        color: #2A7F62;
+    }
+
+    ngb-toast {
+        z-index: 1000;
+    }
+
+    .toast {
+        background-color: #2A7F62 !important;
+        color: #ffffff !important;
+    }
+
+    .error-toast {
+        background-color: #f86464 !important;
+        color: #ffffff !important;
+    }
+
+    /* Estilo del scrollbar */
+    ::-webkit-scrollbar {
+        width: 10px; /* Ancho del scrollbar */
+    }
+    
+    /* Estilo del track del scrollbar (la parte no desplazada) */
+    ::-webkit-scrollbar-track {
+        background-color: #b8b8b84f; /* Color del fondo del track */
+    }
+    
+    /* Estilo del thumb del scrollbar (la parte desplazada) */
+    ::-webkit-scrollbar-thumb {
+        background-color: #888; /* Color del thumb */
+        border-radius: 6px; /* Bordes redondeados del thumb */
+    }
+    
+    /* Estilo del thumb cuando se está moviendo */
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #555; /* Cambia el color del thumb al pasar el ratón sobre él */
+    }
+
+  
 }
 
