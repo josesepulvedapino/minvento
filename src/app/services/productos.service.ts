@@ -30,6 +30,35 @@ export class ProductosService {
     );
   }
 
+  getProductosConFiltros(searchTerm: string, selectedMarca: string): Observable<Producto[]> {
+    const productoRef = collection(this.firestore, 'productos');
+    
+    let dynamicQuery: Query<DocumentData> = productoRef;
+  
+    // Construir la consulta basada en los parámetros proporcionados
+    if (searchTerm.trim() !== '' && selectedMarca !== 'all') {
+      const startSearchTerm = searchTerm.toLowerCase();
+      const endSearchTerm = searchTerm.toLowerCase() + '\uf8ff'; // '\uf8ff' es un carácter especial que representa el fin de una cadena en Unicode
+      dynamicQuery = query(productoRef, 
+        where('nombre', '>=', startSearchTerm),
+        where('nombre', '<=', endSearchTerm),
+        where('marca', '==', selectedMarca)
+      );
+    } else if (searchTerm.trim() !== '') {
+      const startSearchTerm = searchTerm.toLowerCase();
+      const endSearchTerm = searchTerm.toLowerCase() + '\uf8ff';
+      dynamicQuery = query(productoRef, 
+        where('nombre', '>=', startSearchTerm),
+        where('nombre', '<=', endSearchTerm)
+      );
+    } else if (selectedMarca !== 'all') {
+      dynamicQuery = query(productoRef, where('marca', '==', selectedMarca));
+    }
+  
+    return collectionData(dynamicQuery, { idField: 'id' }) as Observable<Producto[]>;
+  }
+  
+
   searchProductosByName(name: string): Observable<Producto[]> {
     const productoRef = collection(this.firestore, 'productos');
     const queryByName = query(productoRef, where('nombre', '>=', name));

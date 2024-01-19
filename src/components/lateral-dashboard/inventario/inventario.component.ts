@@ -90,5 +90,11 @@ export class InventarioComponent implements OnInit {
     }
   }
 
+  searchProductos() {
+    this.productosService.getProductosConFiltros(this.searchTerm, this.selectedMarca).subscribe(productos => {
+      this.productos = productos;
+    });
+  }
+
 
 }
