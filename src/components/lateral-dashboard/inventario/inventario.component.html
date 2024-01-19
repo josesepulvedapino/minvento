@@ -18,15 +18,14 @@
         </span>
         <input
         [disabled]="!isLoaded"
-        (input)="searchProductos()"
+        (input)="searchProductosConFiltro()"
         [(ngModel)]="searchTerm"
         class="form-control"
         placeholder="Buscar productos..."
         id="buscadorProducto"
         name="buscadorProducto"
-      />
-      
-      <select (change)="searchProductos()" class="form-select ms-2" [(ngModel)]="selectedMarca" aria-label="Selecciona una marca">
+      /> 
+      <select [disabled]="!isLoaded" (change)="searchProductosConFiltro()" class="form-select ms-2" [(ngModel)]="selectedMarcaTerm" aria-label="Selecciona una marca">
         <option [value]="''" disabled selected>Selecciona una marca</option>
         <option value="all">TODAS LAS MARCAS</option>
         <option *ngFor="let marca of marcas" [value]="marca">{{ marca }}</option>

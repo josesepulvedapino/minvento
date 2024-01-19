@@ -26,7 +26,7 @@ export class InventarioComponent implements OnInit {
   searchTerm: string = '';
 
   // Variable para el select
-  selectedMarca: string = '';
+  selectedMarcaTerm: string = '';
 
 
   constructor(private modalService: NgbModal, private productosService: ProductosService, private toastService: ToastService) {
@@ -62,7 +62,7 @@ export class InventarioComponent implements OnInit {
     });
   }
 
-  searchProductoByName() {
+  searchProductoByNombre() {
     if (this.searchTerm.trim() === '') {
       // Si el término de búsqueda está vacío, obtener todos los productos de Firestore
       this.productosService.getProductos().subscribe(productos => {
@@ -70,28 +70,29 @@ export class InventarioComponent implements OnInit {
       });
     } else {
       // Si el término de búsqueda no está vacío, realizar la búsqueda y actualizar la lista
-      this.productosService.searchProductosByName(this.searchTerm).subscribe(productos => {
+      this.productosService.searchProductosByNombre(this.searchTerm).subscribe(productos => {
         this.productos = productos;
       });
     }
   }
 
   searchProductoByMarca() {
-    if (this.selectedMarca === 'all') {
+    if (this.selectedMarcaTerm === 'all') {
       // Si se selecciona la opción "Todas las marcas", obtener todos los productos de Firestore
       this.productosService.getProductos().subscribe(productos => {
         this.productos = productos;
       });
     } else {
       // Si se ha seleccionado una marca, realizar la búsqueda y actualizar la lista
-      this.productosService.searchProductosByMarca(this.selectedMarca).subscribe(productos => {
+      this.productosService.searchProductosByMarca(this.selectedMarcaTerm).subscribe(productos => {
         this.productos = productos;
       });
     }
   }
 
-  searchProductos() {
-    this.productosService.getProductosConFiltros(this.searchTerm, this.selectedMarca).subscribe(productos => {
+  searchProductosConFiltro() {
+    // Obtener los productos con filtros de búsqueda por nombre y/o marca
+    this.productosService.getProductosConFiltros(this.searchTerm, this.selectedMarcaTerm).subscribe(productos => {
       this.productos = productos;
     });
   }
