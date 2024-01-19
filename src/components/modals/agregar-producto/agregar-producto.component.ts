@@ -68,14 +68,18 @@ export class AgregarProductoComponent {
         }
       }
       try {
+        // Convertir el campo 'nombre' a minúsculas antes de agregar el producto a Firestore
+        const nombreLowerCase = this.formulario.value.nombre.toLowerCase();
+  
         // Intentar agregar el producto a Firestore llamando al servicio correspondiente
         const response = await this.productosService.addProducto({
           ...this.formulario.value,
+          nombre: nombreLowerCase,  // Usar el nombre en minúsculas
           imagen: this.imagenUrl || 'Imagen no disponible'  // Usar la URL de la imagen si está disponible, de lo contrario usar un texto alternativo
         });
         // Cerrar el modal si la operación fue exitosa
-        this.activeModal.close();
         this.toastService.showSuccess('Producto agregado correctamente al inventario.');
+        this.activeModal.close();
       } catch (error) {
         // Manejar errores en caso de problemas al agregar el producto a Firestore
         console.error('Error al agregar el producto a Firestore:', error);

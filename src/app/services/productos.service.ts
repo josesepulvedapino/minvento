@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
 import { CollectionReference, DocumentData, Firestore, Query, addDoc, collection, collectionData, query, where } from '@angular/fire/firestore';
 import { Producto } from '../interfaces/producto';
-import { Observable, distinct, map } from 'rxjs';
+import { Observable, Subject, distinct, map, switchMap } from 'rxjs';
 import { Storage, ref, listAll, getDownloadURL, list } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductosService {
+  public productosSubject = new Subject<void>();
 
   constructor(private firestore: Firestore, private storage: Storage) { 
   }
-  
-  addProducto(producto: Producto) {
+
+  addProducto(producto: Producto): Promise<void> {
     const productoRef = collection(this.firestore, 'productos');
-    return addDoc(productoRef, producto);
+    return addDoc(productoRef, producto)
+      .then(() => {
+        this.actualizarProductos();
+      });
   }
 
   getProductos(): Observable<Producto[]> {
@@ -41,11 +45,10 @@ export class ProductosService {
     return collectionData(queryByMarca, { idField: 'id' }) as Observable<Producto[]>;
   }
 
-  // Obtener los productos con filtros de búsqueda por nombre y/o marca
   getProductosConFiltros(searchTerm: string, selectedMarca: string): Observable<Producto[]> {
     const productoRef = collection(this.firestore, 'productos');
     let dynamicQuery: Query<DocumentData> = productoRef;
-    // Si el término de búsqueda y la marca seleccionada no están vacíos
+
     if (searchTerm.trim() !== '' && selectedMarca !== 'all') {
       const startSearchTerm = searchTerm.toLowerCase();
       const endSearchTerm = searchTerm.toLowerCase() + '\uf8ff'; 
@@ -54,7 +57,6 @@ export class ProductosService {
         where('nombre', '<=', endSearchTerm),
         where('marca', '==', selectedMarca)
       );
-      // Si el término de búsqueda está vacío y la marca seleccionada no está vacía
     } else if (searchTerm.trim() !== '') {
       const startSearchTerm = searchTerm.toLowerCase();
       const endSearchTerm = searchTerm.toLowerCase() + '\uf8ff';
@@ -62,11 +64,19 @@ export class ProductosService {
         where('nombre', '>=', startSearchTerm),
         where('nombre', '<=', endSearchTerm)
       );
-      // Si el término de búsqueda no está vacío y la marca seleccionada está vacía
     } else if (selectedMarca !== 'all') {
       dynamicQuery = query(productoRef, where('marca', '==', selectedMarca));
     }
-    // Si el término de búsqueda y la marca seleccionada están vacíos
+
     return collectionData(dynamicQuery, { idField: 'id' }) as Observable<Producto[]>;
+  }
+
+  // Función para actualizar productos
+  private actualizarProductos() {
+    this.getProductos().pipe(
+      switchMap(productos => this.getMarcas())
+    ).subscribe(() => {
+      this.productosSubject.next();
+    });
   }
 }

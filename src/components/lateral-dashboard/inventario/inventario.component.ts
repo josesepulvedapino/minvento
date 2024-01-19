@@ -25,8 +25,8 @@ export class InventarioComponent implements OnInit {
   // Variable para el buscador
   searchTerm: string = '';
 
-  // Variable para el select
-  selectedMarcaTerm: string = '';
+  // Variable para el select de marcas 
+  selectedMarcaTerm: string = 'all';
 
 
   constructor(private modalService: NgbModal, private productosService: ProductosService, private toastService: ToastService) {
@@ -60,6 +60,10 @@ export class InventarioComponent implements OnInit {
         this.errorToastMessage = toastMessage;
       }
     });
+    this.productosService.productosSubject.subscribe(() => {
+      this.actualizarProductos();
+    });
+    
   }
 
   searchProductoByNombre() {
@@ -77,18 +81,11 @@ export class InventarioComponent implements OnInit {
   }
 
   searchProductoByMarca() {
-    if (this.selectedMarcaTerm === 'all') {
-      // Si se selecciona la opción "Todas las marcas", obtener todos los productos de Firestore
-      this.productosService.getProductos().subscribe(productos => {
-        this.productos = productos;
-      });
-    } else {
-      // Si se ha seleccionado una marca, realizar la búsqueda y actualizar la lista
+    // Obtener los productos de la marca seleccionada y actualizar la lista
       this.productosService.searchProductosByMarca(this.selectedMarcaTerm).subscribe(productos => {
         this.productos = productos;
       });
     }
-  }
 
   searchProductosConFiltro() {
     // Obtener los productos con filtros de búsqueda por nombre y/o marca
@@ -97,5 +94,13 @@ export class InventarioComponent implements OnInit {
     });
   }
 
+  actualizarProductos() {
+    this.productosService.getProductos().subscribe(productos => {
+      this.productos = productos;
+      this.searchTerm = '';
+      this.selectedMarcaTerm = 'all';
+    });
+
+  }
 
 }

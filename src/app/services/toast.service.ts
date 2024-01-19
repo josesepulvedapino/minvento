@@ -9,10 +9,13 @@ export class ToastService {
   showToast$ = this.showToastSource.asObservable();
 
   showSuccess(message: string) {
+    console.log('showSuccess called with message:', message);
     this.showToastSource.next(`success:${message}`);
   }
-
+  
   showError(message: string) {
+    console.log('showError called with message:', message);
     this.showToastSource.next(`error:${message}`);
   }
+  
 }
