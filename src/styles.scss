@@ -2,6 +2,7 @@
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+@import 'ngx-toastr/toastr';
 
 body {
     height: 100vh;
@@ -39,20 +40,16 @@ body {
         color: #2A7F62;
     }
 
-    ngb-toast {
-        z-index: 1000;
+    .toast-success {
+    background-color: #2A7F62 !important;
+    color: #ffffff !important;
     }
 
-    .toast {
-        background-color: #2A7F62 !important;
-        color: #ffffff !important;
-    }
-
-    .error-toast {
+    .toast-error {
         background-color: #f86464 !important;
         color: #ffffff !important;
     }
-
+    
     /* Estilo del scrollbar */
     ::-webkit-scrollbar {
         width: 10px; /* Ancho del scrollbar */

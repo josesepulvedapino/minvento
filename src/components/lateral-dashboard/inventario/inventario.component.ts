@@ -3,7 +3,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AgregarProductoComponent } from '../../modals/agregar-producto/agregar-producto.component';
 import { ProductosService } from '../../../app/services/productos.service';
 import { Producto } from '../../../app/interfaces/producto';
-import { ToastService } from '../../../app/services/toast.service';
 
 @Component({
   selector: 'app-inventario',
@@ -15,13 +14,6 @@ export class InventarioComponent implements OnInit {
   marcas: string[] = [];
   isLoaded: boolean = false;
 
-  // Variables para los toasts de éxito y error
-  showSuccessToast: boolean = false;
-  successToastMessage: string = '';
-
-  showErrorToast: boolean = false;
-  errorToastMessage: string = '';
-
   // Variable para el buscador
   searchTerm: string = '';
 
@@ -29,7 +21,7 @@ export class InventarioComponent implements OnInit {
   selectedMarcaTerm: string = 'all';
 
 
-  constructor(private modalService: NgbModal, private productosService: ProductosService, private toastService: ToastService) {
+  constructor(private modalService: NgbModal, private productosService: ProductosService) {
     this.productos = [];
   }
 
@@ -48,18 +40,6 @@ export class InventarioComponent implements OnInit {
       this.marcas = marcas.filter((marca, index) => marcas.indexOf(marca) === index);
     });
 
-    this.toastService.showToast$.subscribe((message) => {
-      const [type, toastMessage] = message.split(':');
-
-      // Mostrar el toast específico
-      if (type === 'success') {
-        this.showSuccessToast = true;
-        this.successToastMessage = toastMessage;
-      } else if (type === 'error') {
-        this.showErrorToast = true;
-        this.errorToastMessage = toastMessage;
-      }
-    });
     this.productosService.productosSubject.subscribe(() => {
       this.actualizarProductos();
     });

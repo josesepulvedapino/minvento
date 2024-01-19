@@ -19,6 +19,8 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,10 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     provideFirebaseApp(() => initializeApp({"projectId":"minvento-efd41","appId":"1:1073448903923:web:a6d70e8936525679ea8386","storageBucket":"minvento-efd41.appspot.com","apiKey":"AIzaSyAVZRPyd2y-8oNUrU_Z3-G3qteVkmAOCM8","authDomain":"minvento-efd41.firebaseapp.com","messagingSenderId":"1073448903923"})),
     provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage())
+    provideStorage(() => getStorage()),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
+    
   ],
   providers: [
     
