@@ -50,8 +50,8 @@
                       </td>
                       <td class="text-nowrap text-truncate" [title]="producto.nombre">{{producto.nombre}}</td>
                       <td>{{producto.marca}}</td>
-                      <td>{{producto.cantidad}}</td>
-                      <td>{{'$'+producto.precio}}</td>
+                      <td>{{producto.cantidad | number : '1.0-0'}}</td>
+                      <td>{{ producto.precio | currency : '$' : 'symbol' : '1.0-0' }}</td>
                       <td>{{ (producto.fecha_vencimiento.year + '/' + producto.fecha_vencimiento.month + '/' + producto.fecha_vencimiento.day) | date: 'yyyy/MM/dd' }}</td>
                     </tr>
                   </ng-container>

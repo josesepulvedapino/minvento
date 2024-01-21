@@ -1,9 +1,9 @@
 export interface Producto {
-    id?: number;
+    id?: string;
     imagen: string;
     nombre: string;
     marca: string;
-    cantidad: string;
-    precio: string;
-    fecha_vencimiento: { year: string; month: string; day: string };
+    cantidad: number;
+    precio: number;
+    fecha_vencimiento: { year: number; month: number; day: number };
 }

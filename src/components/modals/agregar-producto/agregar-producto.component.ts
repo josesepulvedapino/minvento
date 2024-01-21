@@ -70,6 +70,10 @@ export class AgregarProductoComponent {
         }
       }
       try {
+        // Convertir los campos 'cantidad' y 'precio' a números antes de agregar el producto a Firestore
+        const cantidad = parseFloat(this.formulario.value.cantidad.replace(/[^\d]/g, '')) || 0;
+        const precio = parseFloat(this.formulario.value.precio.replace(/[^\d]/g, '')) || 0;
+  
         // Convertir el campo 'nombre' a minúsculas antes de agregar el producto a Firestore
         const nombreLowerCase = this.formulario.value.nombre.toLowerCase();
   
@@ -77,6 +81,8 @@ export class AgregarProductoComponent {
         const response = await this.productosService.addProducto({
           ...this.formulario.value,
           nombre: nombreLowerCase,  // Usar el nombre en minúsculas
+          cantidad: cantidad,
+          precio: precio,
           imagen: this.imagenUrl || 'Imagen no disponible'  // Usar la URL de la imagen si está disponible, de lo contrario usar un texto alternativo
         }); 
         // Cerrar el modal si la operación fue exitosa
@@ -94,23 +100,32 @@ export class AgregarProductoComponent {
     }
   }
   
-  formatearPrecio() {
-    const precioRef = this.formulario.get('precio');
+  
+  formatearCantidad(event: any) {
+    const precioRef = this.formulario.get('cantidad');
     if (precioRef?.value) {
-      // Eliminar todos los caracteres no numéricos y formatear con puntos para separar miles
-      const precioFormateado = precioRef.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      // Eliminar todos los caracteres no numéricos
+      const precioLimpio = precioRef.value.replace(/[^\d]/g, '');
+      // Formatear con puntos para separar miles
+      const precioFormateado = new Intl.NumberFormat('es-ES').format(parseFloat(precioLimpio) || 0);
       // Actualizar el valor en el formulario con el precio formateado
       precioRef.setValue(precioFormateado);
+      // Emitir el evento input para que Angular actualice el modelo
+      event.target.value = precioFormateado;
     }
   }
 
-  formatearCantidad() {
-    const cantidadRef = this.formulario.get('cantidad');
-    if (cantidadRef?.value) {
-      // Eliminar todos los caracteres no numéricos y formatear con puntos para separar miles
-      const cantidadRefFormateada = cantidadRef.value.replace(/[^0-9]/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  formatearPrecio(event: any) {
+    const precioRef = this.formulario.get('precio');
+    if (precioRef?.value) {
+      // Eliminar todos los caracteres no numéricos
+      const precioLimpio = precioRef.value.replace(/[^\d]/g, '');
+      // Formatear con puntos para separar miles
+      const precioFormateado = new Intl.NumberFormat('es-ES').format(parseFloat(precioLimpio) || 0);
       // Actualizar el valor en el formulario con el precio formateado
-      cantidadRef.setValue(cantidadRefFormateada);
+      precioRef.setValue(precioFormateado);
+      // Emitir el evento input para que Angular actualice el modelo
+      event.target.value = precioFormateado;
     }
   }
   
