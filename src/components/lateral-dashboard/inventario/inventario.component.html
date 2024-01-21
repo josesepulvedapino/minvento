@@ -93,7 +93,7 @@
                       <td scope="row">
                         <img [src]="producto?.imagen" alt="" width="50px" height="50px">
                       </td>
-                      <td class="text-nowrap text-truncate" [title]="producto.nombre">{{producto.nombre}}</td>
+                      <td class="text-nowrap text-truncate" [title]="producto.nombre">{{producto.nombre | titlecase}}</td>
                       <td>{{producto.marca}}</td>
                       <td>{{producto.cantidad | number : '1.0-0'}}</td>
                       <td>{{ producto.precio | currency : '$' : 'symbol' : '1.0-0' }}</td>
