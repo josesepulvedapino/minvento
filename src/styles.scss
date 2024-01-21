@@ -22,6 +22,7 @@ body {
 
     table {
         th {
+            user-select: none;
             background-color: #2A7F62 !important;
             opacity: 1;
             color: #ffffff !important;
