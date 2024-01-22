@@ -15,15 +15,21 @@
         </div>
         <div class="input-group mb-3">
             <select [ngClass]="{ 'invalid-input': formulario.get('marca')!.invalid && formulario.get('marca')!.touched }" formControlName="marca" class="form-select" id="inputGroupSelect02">
-                <option value="" disabled selected>Selecciona una marca</option>
-                <option value="USN">USN</option>
-                <option value="MUSCLETECH">MUSCLETECH</option>
-                <option value="BIOTECH">BIOTECH</option>
-            </select>
-            <div class="w-100" *ngIf="formulario.get('marca')!.invalid && formulario.get('marca')!.touched">
-                <p class="invalid-text" *ngIf="formulario.get('marca')!.hasError('required')">La marca es obligatoria.</p>
+              <option value="" disabled selected>Selecciona una marca</option>
+              <option *ngFor="let marca of marcas" [value]="marca">{{ marca | uppercase }}</option>
+              <option value="nueva_marca">AGREGAR MARCA</option>
+            </select>      
+            <!-- Nuevo campo de entrada que se mostrará cuando la opción "AGREGAR MARCA" esté seleccionada -->
+            <div *ngIf="formulario.get('marca')!.value === 'nueva_marca'">
+              <input [ngClass]="{ 'invalid-input': formulario.get('nuevaMarca')!.invalid && formulario.get('nuevaMarca')!.touched }" formControlName="nuevaMarca" id="nuevaMarca" class="form-control ms-2" placeholder="Nueva marca" />
             </div>
-        </div>
+            <div class="w-100" *ngIf="formulario.get('marca')!.invalid && formulario.get('marca')!.touched">
+              <p class="invalid-text" *ngIf="formulario.get('marca')!.hasError('required')">La marca es obligatoria.</p>
+            </div>
+            <div class="w-100" *ngIf="formulario.get('nuevaMarca')!.invalid && formulario.get('nuevaMarca')!.touched">
+                <p class="invalid-text" *ngIf="formulario.get('nuevaMarca')!.hasError('required')">La marca es obligatoria.</p>
+              </div>
+          </div>
         <div class="mb-3">
             <input (input)="formatearCantidad($event)" [ngClass]="{ 'invalid-input': formulario.get('cantidad')!.invalid && formulario.get('cantidad')!.touched }" formControlName="cantidad" [placeholder]="'Cantidad'" type="text" class="form-control" id="cantidad" aria-describedby="emailHelp">
             <div class="w-100" *ngIf="formulario.get('cantidad')!.invalid && formulario.get('cantidad')!.touched">

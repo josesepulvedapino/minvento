@@ -21,7 +21,7 @@
       /> 
       <select [disabled]="!isLoaded" (change)="searchProductosConFiltro()" class="form-select ms-2" [(ngModel)]="selectedMarcaTerm" aria-label="Selecciona una marca">
         <option value="all">TODAS LAS MARCAS</option>
-        <option *ngFor="let marca of marcas" [value]="marca">{{ marca }}</option>
+        <option *ngFor="let marca of marcas" [value]="marca">{{ marca | uppercase }}</option>
       </select>
         <button [disabled]="!isLoaded" (click)="openModalAgregarProducto()" type="button" class="btn btn-dark ms-2">Agregar producto</button>
       </div>
@@ -94,7 +94,7 @@
                         <img [src]="producto?.imagen" alt="" width="50px" height="50px">
                       </td>
                       <td class="text-nowrap text-truncate" [title]="producto.nombre">{{producto.nombre | titlecase}}</td>
-                      <td>{{producto.marca}}</td>
+                      <td>{{producto.marca | uppercase}}</td>
                       <td>{{producto.cantidad | number : '1.0-0'}}</td>
                       <td>{{ producto.precio | currency : '$' : 'symbol' : '1.0-0' }}</td>
                       <td>{{ (producto.fecha_vencimiento.year + '/' + producto.fecha_vencimiento.month + '/' + producto.fecha_vencimiento.day) | date: 'yyyy/MM/dd' }}</td>
