@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MenuServiceService } from '../../app/services/menu-service.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
+
+  constructor () {
+  }
+
+  
 
 }

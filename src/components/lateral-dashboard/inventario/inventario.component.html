@@ -1,0 +1,126 @@
+<section class="inventario p-4">
+  <div class="inventario-header d-flex align-items-center justify-content-between pb-2">
+    <div class="inventario-header-left">
+      <h2>Inventario</h2>
+    </div>
+    <div class="inventario-header-right">
+      <div class="input-group">
+        <span aria-current="" class="input-group-text">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+          </svg>
+        </span>
+        <input
+        [disabled]="!isLoaded"
+        (input)="searchProductosConFiltro()"
+        [(ngModel)]="searchTerm"
+        class="form-control"
+        placeholder="Buscar productos..."
+        id="buscadorProducto"
+        name="buscadorProducto"
+      /> 
+      <select [disabled]="!isLoaded" (change)="searchProductosConFiltro()" class="form-select ms-2" [(ngModel)]="selectedMarcaTerm" aria-label="Selecciona una marca">
+        <option value="all">TODAS LAS MARCAS</option>
+        <option *ngFor="let marca of marcas" [value]="marca">{{ marca | uppercase }}</option>
+      </select>
+        <button [disabled]="!isLoaded" (click)="openModalAgregarProducto()" type="button" class="btn btn-dark ms-2">Agregar producto</button>
+      </div>
+    </div>
+  </div>
+  <div class="inventario-body">
+      <div class="table-responsive">
+          <table class="table table-hover inventario-body-table">
+              <thead class="sticky-top">
+                  <tr>
+                      <th scope="col">Imagen</th>
+                      <th scope="col">Nombre</th>
+                      <th scope="col">Marca</th>
+                      <th scope="col"><span role="button" (click)="orderProductosPorCantidad()">Cantidad
+                        <span *ngIf="this.orderCantidadEstado === 'sinOrdenar'">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                            <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                          </svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                          </svg>
+                        </span>
+                        <svg *ngIf="this.orderCantidadEstado === 'desc'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                          <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                        </svg>
+                        <svg *ngIf="this.orderCantidadEstado === 'asc'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                        </svg>
+                      </span></th>
+                      <th scope="col"><span role="button" (click)="orderProductosPorPrecio()">Precio
+                        <span *ngIf="this.orderPrecioEstado === 'sinOrdenar'">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                            <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                          </svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                          </svg>
+                        </span>
+                        <svg *ngIf="this.orderPrecioEstado === 'desc'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                          <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                        </svg>
+                        <svg *ngIf="this.orderPrecioEstado === 'asc'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                        </svg>
+                      </span></th>
+                      <th scope="col"><span role="button" (click)="orderProductosPorFecha()">Fecha V.
+                        <span *ngIf="this.orderFechaEstado === 'sinOrdenar'">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                            <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                          </svg>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                          </svg>
+                        </span>
+                        <svg *ngIf="this.orderFechaEstado === 'desc'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-up-fill" viewBox="0 0 16 16">
+                          <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                        </svg>
+                        <svg *ngIf="this.orderFechaEstado === 'asc'" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                          <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                        </svg>
+                      </span></th>
+                  </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngIf="isLoaded; else loadingContent">
+                  <ng-container *ngIf="productos.length > 0; else noProductos">
+                    <!-- Filas de la tabla cuando hay productos -->
+                    <tr *ngFor="let producto of productos">
+                      <td scope="row">
+                        <img [src]="producto?.imagen" alt="" width="50px" height="50px">
+                      </td>
+                      <td class="text-nowrap text-truncate" [title]="producto.nombre">{{producto.nombre | titlecase}}</td>
+                      <td>{{producto.marca | uppercase}}</td>
+                      <td>{{producto.cantidad | number : '1.0-0'}}</td>
+                      <td>{{ producto.precio | currency : '$' : 'symbol' : '1.0-0' }}</td>
+                      <td>{{ (producto.fecha_vencimiento.year + '/' + producto.fecha_vencimiento.month + '/' + producto.fecha_vencimiento.day) | date: 'yyyy/MM/dd' }}</td>
+                    </tr>
+                  </ng-container>
+                  <ng-template #noProductos>
+                    <!-- Fila cuando no hay productos -->
+                    <tr>
+                      <td colspan="6" class="text-center">No hay productos disponibles.</td>
+                    </tr>
+                  </ng-template>
+                </ng-container>
+                <!-- Filas de carga cuando los productos se están cargando -->
+                <ng-template #loadingContent>
+                  <tr *ngFor="let _ of [1, 2, 3, 4, 5]">
+                    <td scope="row"><img class="loading-image" alt="" width="50px" height="50px"></td>
+                    <td><span class="loading-text-large"></span></td>
+                    <td><span class="loading-text-large"></span></td>
+                    <td><span class="loading-text-short"></span></td>
+                    <td><span class="loading-text-short"></span></td>
+                    <td><span class="loading-text-short"></span></td>
+                  </tr>
+                </ng-template>
+              </tbody> 
+          </table>
+      </div>
+  </div>
+</section>
+
