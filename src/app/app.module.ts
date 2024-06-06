@@ -21,6 +21,8 @@ import { getStorage, provideStorage } from '@angular/fire/storage';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { MarcasService } from './services/marcas.service';
+import { ProductosService } from './services/productos.service';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { ToastrModule } from 'ngx-toastr';
     
   ],
   providers: [
+    MarcasService,
+    ProductosService
     
   ],
   bootstrap: [AppComponent]

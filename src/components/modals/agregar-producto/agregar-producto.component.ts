@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
 import { NgbActiveModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ProductosService } from '../../../app/services/productos.service';
+import { MarcasService } from '../../../app/services/marcas.service'; // Servicio para manejar marcas
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -22,6 +23,7 @@ export class AgregarProductoComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,  // Servicio de Bootstrap para manipular modales
     private productosService: ProductosService,  // Servicio que maneja la lógica relacionada con los productos
+    private marcasService: MarcasService, // Servicio que maneja la lógica relacionada con las marcas
     private storage: Storage,  // Servicio de Firebase para el almacenamiento
     private toastrService: ToastrService // Servicio para mostrar notificaciones
   ) {
@@ -30,7 +32,7 @@ export class AgregarProductoComponent implements OnInit {
       imagen: new FormControl('', Validators.required),  // Campo para la imagen con validación de requerido
       nombre: new FormControl('', Validators.required),  // Campo para el nombre con validación de requerido
       marca: new FormControl('', Validators.required),  // Campo para la marca con validación de requerido
-      nuevaMarca: new FormControl('', Validators.required),  // Campo para la marca nueva
+      nuevaMarca: new FormControl(''),  // Campo para la marca nueva
       cantidad: new FormControl('', [Validators.required, Validators.max(100000)]), // Campo para la cantidad con validación de requerido y máximo de 100000
       precio: new FormControl('', Validators.required),  // Campo para el precio con validación de requerido
       fecha_vencimiento: new FormControl('', Validators.required)  // Campo para la fecha de vencimiento con validación de requerido
@@ -39,10 +41,9 @@ export class AgregarProductoComponent implements OnInit {
 
   ngOnInit(): void {
     // Obtener las marcas de los productos y eliminar las repetidas
-    this.productosService.getMarcas().subscribe(marcas => {
-      this.marcas = marcas.filter((marca, index) => marcas.indexOf(marca) === index);
+    this.marcasService.getMarcas().subscribe(marcas => {
+      this.marcas = [...new Set(marcas.map(marca => marca.nombre))];
     });
-
   }
 
   obtenerImagenProducto(event: Event) {
@@ -83,8 +84,12 @@ export class AgregarProductoComponent implements OnInit {
       try {
         // Verificar si se ingresó una marca nueva
         if (this.formulario.value.nuevaMarca) {
-          this.formulario.value.marca = this.formulario.value.nuevaMarca;
-        }   
+          // Agregar la nueva marca a la colección de marcas en Firebase
+          await this.marcasService.addMarca(this.formulario.value.nuevaMarca.toLowerCase());
+          // Asignar la nueva marca al campo marca
+          this.formulario.value.marca = this.formulario.value.nuevaMarca.toLowerCase();
+        }
+
         // Convertir los campos 'cantidad' y 'precio' a números antes de agregar el producto a Firestore
         const cantidad = parseFloat(this.formulario.value.cantidad.replace(/[^\d]/g, '')) || 0;
         const precio = parseFloat(this.formulario.value.precio.replace(/[^\d]/g, '')) || 0;
